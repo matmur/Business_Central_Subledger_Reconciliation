@@ -5,7 +5,3 @@ rad.json
 .alpackages/
 .DS_Store
 Thumbs.db
-
-# Safety: private strategy brief must never land in this PUBLIC repo
-claude.md
-CLAUDE.md
