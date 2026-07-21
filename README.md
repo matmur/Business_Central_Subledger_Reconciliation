@@ -1,55 +1,57 @@
-# Sub-Ledger Reconciliation for Business Central
+> 🇩🇪 Deutsch | [🇬🇧 English](README.en.md)
+
+# Nebenbuch-Abstimmung für Business Central
 
 ![Business Central](https://img.shields.io/badge/Business%20Central-28.3-0078D4)
 ![AL Runtime](https://img.shields.io/badge/AL%20runtime-17.0-5C2D91)
 ![Localization](https://img.shields.io/badge/localization-DE-lightgrey)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-A small, focused **Business Central (AL)** extension that catches **sub-ledger drift** — when the customer receivables sub-ledger stops agreeing with its G/L control account.
+Eine kleine, fokussierte **Business-Central-(AL-)Erweiterung**, die **Abweichungen zwischen Nebenbuch und Hauptbuch** erkennt – wenn das Debitoren-Nebenbuch nicht mehr mit seinem Abstimmkonto im Hauptbuch übereinstimmt.
 
-For each **G/L receivables control account** it compares the **open customer ledger entries** (summed remaining, LCY) against the **account balance**. Any non-zero difference is drift — a manual G/L posting, a reassigned posting group, a partial reversal. Pure aggregation, no judgment calls.
+Für jedes **Debitoren-Abstimmkonto im Hauptbuch** vergleicht sie die **offenen Debitorenposten** (Summe des Restbetrags in Mandantenwährung) mit dem **Kontosaldo**. Jede Differenz ungleich null ist eine Abweichung – eine manuelle Sachkontobuchung, eine neu zugewiesene Buchungsgruppe, eine Teilstornierung. Reine Aggregation, keine Ermessensentscheidungen.
 
-> **Demo:** _2-minute recording goes here — a row flips to red after a manual G/L posting._
+> **Demo:** _Hier folgt eine 2-minütige Aufzeichnung – eine Zeile wird nach einer manuellen Sachkontobuchung rot._
 
-## Why it matters
+## Warum das wichtig ist
 
-The sub-ledger and G/L are supposed to move together. Post **directly** to a receivables control account, or reassign a posting group, and they silently diverge — usually caught only at period close. This surfaces it on demand or on a schedule, any time.
+Nebenbuch und Hauptbuch sollen sich gemeinsam bewegen. Bucht man **direkt** auf ein Debitoren-Abstimmkonto oder weist eine Buchungsgruppe neu zu, laufen sie unbemerkt auseinander – meist erst zum Periodenabschluss entdeckt. Diese Erweiterung macht das jederzeit sichtbar – auf Knopfdruck oder nach Zeitplan.
 
-## The design decision that matters
+## Die entscheidende Design-Entscheidung
 
-**Reconcile per control account, not per posting group.** Several posting groups can map to the *same* receivables account (e.g. `EU` and `AUSLAND` → `1203`). Comparing one group's partial sub-ledger to the account's full balance would report phantom drift. So the engine folds every group's open sub-ledger into its account and compares **once per account**, where the numbers are actually comparable.
+**Abstimmung pro Abstimmkonto, nicht pro Buchungsgruppe.** Mehrere Buchungsgruppen können auf *dasselbe* Debitorenkonto verweisen (z. B. `EU` und `AUSLAND` → `1203`). Vergleicht man das Teil-Nebenbuch einer einzelnen Gruppe mit dem vollen Kontosaldo, entstehen Scheinabweichungen. Deshalb fasst die Logik das offene Nebenbuch aller Gruppen pro Konto zusammen und vergleicht **einmal pro Konto** – dort, wo die Zahlen tatsächlich vergleichbar sind.
 
-## Objects
+## Objekte
 
-| Object | ID | Role |
+| Objekt | ID | Funktion |
 |---|---|---|
-| enum `Recon Status` | 50100 | Balanced / Drift Detected |
-| table `Recon Finding` | 50101 | One finding per account per run (`Delta`/`Status` derived in `OnInsert`) |
-| codeunit `Sub-Ledger Recon Mgt.` | 50102 | Core reconciliation logic |
-| codeunit `Recon Check Job` | 50103 | Job Queue wrapper (schedulable) |
-| page `Recon Findings` | 50104 | List UI + run action + red/green styling |
+| enum `Recon Status` | 50100 | Ausgeglichen / Abweichung erkannt |
+| table `Recon Finding` | 50101 | Ein Befund pro Konto und Lauf (`Delta`/`Status` werden in `OnInsert` abgeleitet) |
+| codeunit `Sub-Ledger Recon Mgt.` | 50102 | Kern-Abstimmungslogik |
+| codeunit `Recon Check Job` | 50103 | Wrapper für die Aufgabenwarteschlange (planbar) |
+| page `Recon Findings` | 50104 | Listenoberfläche + Ausführen-Aktion + Rot/Grün-Formatierung |
 
-## Under the hood
+## Technische Details
 
-- **Extension-only, upgrade-safe.** No base objects modified; it only *reads* base data (`Customer Posting Group`, `Cust. Ledger Entry`, `G/L Account`) through their public surface.
-- **FlowFields, handled correctly.** `Remaining Amt. (LCY)` and G/L `Balance` are FlowFields, not stored columns — so they can't be `CalcSums`'d. The engine uses `SetAutoCalcFields` (server computes during the fetch — one set-based query, no N+1) and `CalcFields` for the single account balance.
-- **Data never leaves the tenant.** Findings only — no external calls.
-- **Schedulable.** Codeunit 50103 runs as a Job Queue Entry; the same core logic serves both the page button and the scheduler.
+- **Nur als Erweiterung, upgrade-sicher.** Keine Basisobjekte werden verändert; es werden ausschließlich Basisdaten (`Customer Posting Group`, `Cust. Ledger Entry`, `G/L Account`) über deren öffentliche Schnittstelle *gelesen*.
+- **FlowFields, korrekt behandelt.** `Remaining Amt. (LCY)` und der Hauptbuch-`Balance` sind FlowFields, keine gespeicherten Spalten – sie lassen sich daher nicht per `CalcSums` summieren. Die Logik nutzt `SetAutoCalcFields` (der Server berechnet sie während des Abrufs – eine mengenbasierte Abfrage, kein N+1) und `CalcFields` für den einzelnen Kontosaldo.
+- **Daten verlassen den Mandanten nie.** Nur Befunde – keine externen Aufrufe.
+- **Planbar.** Codeunit 50103 läuft als Aufgabenwarteschlangenposten; dieselbe Kernlogik bedient sowohl die Schaltfläche auf der Seite als auch den Zeitplaner.
 
-## Run it
+## Ausführen
 
-Needs VS Code + the **AL Language** extension (17.0) and a BC **28.3** sandbox.
+Benötigt VS Code + die **AL-Language**-Erweiterung (17.0) und eine BC-**28.3**-Sandbox.
 
-1. Open the folder in VS Code → **AL: Download symbols**.
-2. `Ctrl+Shift+B` to compile, or **F5** to publish and launch.
-3. Open **Reconciliation Findings** → **Run Reconciliation Check**.
+1. Ordner in VS Code öffnen → **AL: Download symbols**.
+2. `Ctrl+Shift+B` zum Kompilieren oder **F5** zum Veröffentlichen und Starten.
+3. **Reconciliation Findings** öffnen → **Run Reconciliation Check**.
 
-**See drift live:** post a manual General Journal line straight to a receivables control account, then re-run — that row turns red with a non-zero delta.
+**Abweichung live sehen:** eine manuelle Fibu-Buchblattzeile direkt auf ein Debitoren-Abstimmkonto buchen, dann erneut ausführen – diese Zeile wird rot und zeigt ein Delta ungleich null.
 
-To schedule: **Job Queue Entries → New**, Codeunit `50103`, set a recurrence, Status = Ready.
+Zum Einplanen: **Aufgabenwarteschlangenposten → Neu**, Codeunit `50103`, Wiederholung festlegen, Status = Bereit.
 
-> `50100–50149` is a development ID range; an AppSource release needs a Microsoft-registered range.
+> `50100–50149` ist ein Entwicklungs-ID-Bereich; eine AppSource-Veröffentlichung erfordert einen bei Microsoft registrierten Bereich.
 
-## License
+## Lizenz
 
 [MIT](LICENSE) © 2026 Matthias Mur
