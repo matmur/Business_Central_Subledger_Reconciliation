@@ -2,11 +2,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Proculytics_Sandbox_MM",
+            "name": "Sandbox_Mur_Consulting",
             "request": "launch",
             "type": "al",
             "environmentType": "Sandbox",
-            "environmentName": "Proculytics_Sandbox_MM",
+            "environmentName": "Sandbox_Mur_Consulting",
             "schemaUpdateMode": "Recreate",
             "startupObjectId": 50104,
             "startupObjectType": "Page",
