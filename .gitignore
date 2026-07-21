@@ -1,0 +1,7 @@
+*.app
+rad.json
+.snapshots/
+.altemplates/
+.alpackages/
+.DS_Store
+Thumbs.db
