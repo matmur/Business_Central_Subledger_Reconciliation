@@ -11,7 +11,19 @@ Eine kleine, fokussierte **Business-Central-(AL-)Erweiterung**, die **Abweichung
 
 Für jedes **Debitoren-Abstimmkonto im Hauptbuch** vergleicht sie die **offenen Debitorenposten** (Summe des Restbetrags in Mandantenwährung) mit dem **Kontosaldo**. Jede Differenz ungleich null ist eine Abweichung – eine manuelle Sachkontobuchung, eine neu zugewiesene Buchungsgruppe, eine Teilstornierung. Reine Aggregation, keine Ermessensentscheidungen.
 
-> **Demo:** _Hier folgt eine 2-minütige Aufzeichnung – eine Zeile wird nach einer manuellen Sachkontobuchung rot._
+## Demo
+
+Ein Lauf gegen die BC-**28.3**-Sandbox (DE-Lokalisierung, CRONUS). Die Erweiterung ändert **nichts** an den Buchungen – sie liest die Daten live und macht eine Abweichung nur sichtbar.
+
+**Ausgangslage – ausgeglichen.** Nebenbuch und Hauptbuch stimmen überein, `Delta` = 0,00:
+
+![Reconciliation Findings, alle Zeilen grün, Delta 0,00, Status „Balanced"](docs/balanced.png)
+
+**Nach einer Falschbuchung – Abweichung erkannt.** Es wird manuell direkt auf das Debitoren-Abstimmkonto `1202` (INLAND) gebucht. Nebenbuch und Hauptbuch laufen dadurch auseinander – der nächste Lauf deckt es auf, die Zeile wird rot, `Delta` = −500,00:
+
+![Reconciliation Findings mit roter INLAND-Zeile, Delta −500,00, Status „Drift Detected"](docs/drift-detected.png)
+
+`AUSLAND` und `EU` verweisen beide auf Konto `1203` und bleiben ausgeglichen – genau der Fall, den die Abstimmung pro Konto abdeckt (siehe unten).
 
 ## Warum das wichtig ist
 

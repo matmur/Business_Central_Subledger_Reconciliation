@@ -11,7 +11,19 @@ A small, focused **Business Central (AL)** extension that catches **sub-ledger d
 
 For each **G/L receivables control account** it compares the **open customer ledger entries** (summed remaining, LCY) against the **account balance**. Any non-zero difference is drift — a manual G/L posting, a reassigned posting group, a partial reversal. Pure aggregation, no judgment calls.
 
-> **Demo:** _2-minute recording goes here — a row flips to red after a manual G/L posting._
+## Demo
+
+A run against the BC **28.3** sandbox (DE localization, CRONUS). The extension changes **nothing** in the ledgers — it reads the data live and only surfaces drift.
+
+**Starting point — balanced.** Sub-ledger and G/L agree, `Delta` = 0,00:
+
+![Reconciliation Findings with all rows green, delta 0,00, status "Balanced"](docs/balanced.png)
+
+**After a wrong posting — drift detected.** A manual entry is posted straight to receivables control account `1202` (INLAND). That pushes the sub-ledger and G/L apart — the next run surfaces it, the row turns red, `Delta` = −500,00:
+
+![Reconciliation Findings with the INLAND row in red, delta −500,00, status "Drift Detected"](docs/drift-detected.png)
+
+`AUSLAND` and `EU` both map to account `1203` and stay balanced — exactly the case the per-account reconciliation handles (see below).
 
 ## Why it matters
 
