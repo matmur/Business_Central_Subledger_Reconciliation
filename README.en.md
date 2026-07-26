@@ -29,6 +29,17 @@ A run against the BC **28.3** sandbox (DE localization, CRONUS). The extension c
 
 The sub-ledger and G/L are supposed to move together. Post **directly** to a receivables control account, or reassign a posting group, and they silently diverge — usually caught only at period close. This surfaces it on demand or on a schedule, any time.
 
+## How drift happens
+
+| Cause | Requires "Direct Posting"? |
+|---|---|
+| Posting group changed after the fact — old entries stay on the old control account, the customer now counts towards the new group | No |
+| Data migration or API integration writes straight to the G/L, bypassing the standard posting routine | No |
+| Partial reversal where only one side was unapplied | No |
+| Manual G/L posting (the demo case, because it is the easiest to reproduce) | Yes |
+
+The check doesn't test whether a rule was broken, but whether the numbers still agree — regardless of the cause.
+
 ## The design decision that matters
 
 **Reconcile per control account, not per posting group.** Several posting groups can map to the *same* receivables account (e.g. `EU` and `AUSLAND` → `1203`). Comparing one group's partial sub-ledger to the account's full balance would report phantom drift. So the engine folds every group's open sub-ledger into its account and compares **once per account**, where the numbers are actually comparable.

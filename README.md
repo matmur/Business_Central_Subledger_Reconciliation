@@ -29,6 +29,17 @@ Ein Lauf gegen die BC-**28.3**-Sandbox (DE-Lokalisierung, CRONUS). Die Erweiteru
 
 Nebenbuch und Hauptbuch sollen sich gemeinsam bewegen. Bucht man **direkt** auf ein Debitoren-Abstimmkonto oder weist eine Buchungsgruppe neu zu, laufen sie unbemerkt auseinander – meist erst zum Periodenabschluss entdeckt. Diese Erweiterung macht das jederzeit sichtbar – auf Knopfdruck oder nach Zeitplan.
 
+## Wie Abweichungen entstehen
+
+| Ursache | Setzt „Direkt Buchen" voraus? |
+|---|---|
+| Buchungsgruppe nachträglich geändert – alte Posten bleiben auf dem alten Abstimmkonto, der Debitor zählt zur neuen Gruppe | Nein |
+| Datenmigration oder API-Integration schreibt direkt ins Hauptbuch, ohne Standard-Buchungsroutine | Nein |
+| Teilstornierung, bei der nur eine Seite aufgelöst wurde | Nein |
+| Manuelle Sachkontobuchung (der Demo-Fall, weil am einfachsten reproduzierbar) | Ja |
+
+Der Check prüft nicht, ob eine Regel verletzt wurde, sondern ob die Zahlen noch übereinstimmen – unabhängig von der Ursache.
+
 ## Die entscheidende Design-Entscheidung
 
 **Abstimmung pro Abstimmkonto, nicht pro Buchungsgruppe.** Mehrere Buchungsgruppen können auf *dasselbe* Debitorenkonto verweisen (z. B. `EU` und `AUSLAND` → `1203`). Vergleicht man das Teil-Nebenbuch einer einzelnen Gruppe mit dem vollen Kontosaldo, entstehen Scheinabweichungen. Deshalb fasst die Logik das offene Nebenbuch aller Gruppen pro Konto zusammen und vergleicht **einmal pro Konto** – dort, wo die Zahlen tatsächlich vergleichbar sind.
