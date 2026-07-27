@@ -75,6 +75,12 @@ To schedule: **Job Queue Entries → New**, Codeunit `50103`, set a recurrence, 
 
 > `50100–50149` is a development ID range; an AppSource release needs a Microsoft-registered range.
 
+## Contact
+
+**Matthias Mur** — .NET/SQL developer with a background in production ERP systems (custom .NET extensions, billing and service-management logic, SQL validation, live production debugging), now building on Business Central (AL). Available for freelance BC and ERP work, 100% remote across DACH.
+
+[LinkedIn](https://www.linkedin.com/in/matthias-mur/) · [matthias@mur-consulting.com](mailto:matthias@mur-consulting.com)
+
 ## License
 
 [MIT](LICENSE) © 2026 Matthias Mur

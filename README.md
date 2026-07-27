@@ -75,6 +75,12 @@ Zum Einplanen: **Aufgabenwarteschlangenposten → Neu**, Codeunit `50103`, Wiede
 
 > `50100–50149` ist ein Entwicklungs-ID-Bereich; eine AppSource-Veröffentlichung erfordert einen bei Microsoft registrierten Bereich.
 
+## Kontakt
+
+**Matthias Mur** — .NET/SQL-Entwickler mit Hintergrund in produktiven ERP-Systemen (kundenspezifische .NET-Erweiterungen, Abrechnungs- und Service-Management-Logik, SQL-Validierung, Debugging im Live-Betrieb), jetzt Business Central (AL). Verfügbar für freiberufliche BC- und ERP-Projekte, 100 % remote im DACH-Raum.
+
+[LinkedIn](https://www.linkedin.com/in/matthias-mur/) · [matthias@mur-consulting.com](mailto:matthias@mur-consulting.com)
+
 ## Lizenz
 
 [MIT](LICENSE) © 2026 Matthias Mur
