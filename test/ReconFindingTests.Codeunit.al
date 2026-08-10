@@ -1,4 +1,4 @@
-codeunit 50150 "Recon Finding Tests"
+codeunit 50149 "Recon Finding Tests"
 {
     // Tests the one piece of logic in this extension that is pure and therefore worth pinning
     // down: the Delta and Status a Recon Finding derives from the two balances written into it.
