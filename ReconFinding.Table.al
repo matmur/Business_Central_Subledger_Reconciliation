@@ -16,7 +16,7 @@ table 50101 "Recon Finding"
         field(2; "Check Date"; Date)
         {
             Caption = 'Check Date';
-            ToolTip = 'Specifies the work date on which this reconciliation was run.';
+            ToolTip = 'Specifies the date on which this reconciliation was run. Both sides of the comparison are measured as of the moment of the run, not as of a historical date.';
         }
         field(3; "Customer Posting Group"; Text[250])
         {
@@ -27,19 +27,19 @@ table 50101 "Recon Finding"
         {
             Caption = 'G/L Control Account No.';
             TableRelation = "G/L Account"."No.";
-            ToolTip = 'Specifies the G/L receivables control account tied to the posting group.';
+            ToolTip = 'Specifies the G/L receivables control account being reconciled.';
         }
         field(5; "Sub-Ledger Balance"; Decimal)
         {
             Caption = 'Sub-Ledger Balance';
             AutoFormatType = 1;
-            ToolTip = 'Specifies the summed remaining amount (LCY) of the open customer ledger entries for this posting group.';
+            ToolTip = 'Specifies the summed remaining amount (LCY) of the open customer ledger entries of every posting group that points at this control account.';
         }
         field(6; "G/L Balance"; Decimal)
         {
             Caption = 'G/L Balance';
             AutoFormatType = 1;
-            ToolTip = 'Specifies the balance of the G/L receivables control account for this posting group.';
+            ToolTip = 'Specifies the current balance of this G/L receivables control account.';
         }
         field(7; Delta; Decimal)
         {
@@ -52,7 +52,7 @@ table 50101 "Recon Finding"
         {
             Caption = 'Status';
             Editable = false;
-            ToolTip = 'Specifies whether the posting group is balanced or shows drift.';
+            ToolTip = 'Specifies whether this control account is balanced or shows drift.';
         }
     }
 
@@ -64,9 +64,10 @@ table 50101 "Recon Finding"
         }
     }
 
-    // Delta and Status are derived, not entered. Computing them in OnInsert means every
-    // row is internally consistent the instant it is written, regardless of who inserts it.
-    // The insert must be called with Insert(true) for this trigger to fire.
+    // Delta and Status are derived, not entered. Computing them in OnInsert means every row is
+    // internally consistent the instant it is written, regardless of who inserts it — including
+    // a test that writes a finding directly without running a reconciliation.
+    // The insert must be called as Insert(true) for this trigger to fire.
     trigger OnInsert()
     begin
         Delta := "Sub-Ledger Balance" - "G/L Balance";

@@ -33,7 +33,7 @@ page 50104 "Recon Findings"
             {
                 Caption = 'Run Reconciliation Check';
                 Image = Refresh;
-                ToolTip = 'Recalculates the sub-ledger vs. G/L reconciliation and records one finding per customer posting group.';
+                ToolTip = 'Recalculates the sub-ledger against the general ledger and replaces the previous result with one finding per G/L receivables control account.';
 
                 trigger OnAction()
                 var
@@ -59,8 +59,8 @@ page 50104 "Recon Findings"
     var
         RowStyle: Text;
 
-    // Row styling is decided per record: red (Unfavorable) when drift is detected,
-    // green (Favorable) when the group is balanced. StyleExpr on each field paints the row.
+    // Row styling is decided per record: red (Unfavorable) when drift is detected, green
+    // (Favorable) when the account is balanced. StyleExpr on each field paints the row.
     trigger OnAfterGetRecord()
     begin
         if Rec.Status = Rec.Status::"Drift Detected" then
