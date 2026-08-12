@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="en-US" target-language="de-DE" original="Sub-Ledger Reconciliation">
+    <body>
+      <group id="body">
+        <trans-unit id="Table 508019636 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reconciliation Finding</source>
+          <target state="translated">Abstimmungsbefund</target>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 3761755486 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the date on which this reconciliation was run. Both sides of the comparison are measured as of the moment of the run, not as of a historical date.</source>
+          <target state="translated">Tag, an dem die Abstimmung gelaufen ist. Beide Beträge sind Stände von diesem Zeitpunkt, keine Stichtagswerte aus der Vergangenheit.</target>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 3761755486 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Check Date</source>
+          <target state="translated">Prüfdatum</target>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 410940989 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the customer posting group(s) whose receivables post to this control account. Multiple groups can share one account, so they are reconciled together.</source>
+          <target state="translated">Buchungsgruppen, deren Forderungen auf dieses Konto laufen. Zeigen mehrere Gruppen auf dasselbe Konto, werden sie gemeinsam abgestimmt und stehen hier alle.</target>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 410940989 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Customer Posting Group(s)</source>
+          <target state="translated">Buchungsgruppe(n)</target>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 2526400892 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the difference between the sub-ledger balance and the G/L balance. A non-zero value indicates drift.</source>
+          <target state="translated">Offene Kundenposten minus Kontostand. Alles außer null bedeutet, dass auf dem Konto Beträge liegen, hinter denen keine Kundenrechnung steht – oder umgekehrt.</target>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 2526400892 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Delta</source>
+          <target state="translated">Differenz</target>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 883711285 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies a unique, system-assigned number for the reconciliation finding.</source>
+          <target state="translated">Fortlaufende Nummer des Befunds, wird vom System vergeben.</target>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 883711285 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Entry No.</source>
+          <target state="translated">Lfd. Nr.</target>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 65409710 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the current balance of this G/L receivables control account.</source>
+          <target state="translated">Betrag, der tatsächlich auf dem Konto steht.</target>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 65409710 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>G/L Balance</source>
+          <target state="translated">Kontostand</target>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 3647750311 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the G/L receivables control account being reconciled.</source>
+          <target state="translated">Das Sachkonto, um das es in dieser Zeile geht. Beide Beträge daneben beziehen sich auf dieses eine Konto.</target>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 3647750311 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>G/L Control Account No.</source>
+          <target state="translated">Abstimmkonto</target>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 513339096 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies whether this control account is balanced or shows drift.</source>
+          <target state="translated">Zeigt, ob das Konto mit den Kundenposten übereinstimmt.</target>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 513339096 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Status</source>
+          <target state="translated">Status</target>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 682514462 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the summed remaining amount (LCY) of the open customer ledger entries of every posting group that points at this control account.</source>
+          <target state="translated">Summe dessen, was die Kunden dieser Buchungsgruppen laut ihren unbezahlten Rechnungen noch schulden. So viel müsste auf dem Konto stehen.</target>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 682514462 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sub-Ledger Balance</source>
+          <target state="translated">Offene Kundenposten</target>
+        </trans-unit>
+        <trans-unit id="Page 2319951925 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reconciliation Findings</source>
+          <target state="translated">Abstimmung Debitoren</target>
+        </trans-unit>
+        <trans-unit id="Page 2319951925 - Action 2842425116 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Recalculates the sub-ledger against the general ledger and replaces the previous result with one finding per G/L receivables control account.</source>
+          <target state="translated">Rechnet die offenen Kundenposten gegen die Sachkonten neu und ersetzt das bisherige Ergebnis durch einen Befund je Abstimmkonto.</target>
+        </trans-unit>
+        <trans-unit id="Page 2319951925 - Action 2842425116 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Run Reconciliation Check</source>
+          <target state="translated">Abstimmung starten</target>
+        </trans-unit>
+        <trans-unit id="Page 2319951925 - Action 3383493608 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Process</source>
+          <target state="translated">Prozess</target>
+        </trans-unit>
+        <trans-unit id="Enum 3747955979 - EnumValue 1000799854 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Balanced</source>
+          <target state="translated">Stimmt überein</target>
+        </trans-unit>
+        <trans-unit id="Enum 3747955979 - EnumValue 3153180701 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Drift Detected</source>
+          <target state="translated">Abweichung</target>
+        </trans-unit>
+        <trans-unit id="PermissionSet 1243789787 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sub-Ledger Reconciliation</source>
+          <target state="translated">Debitorenabstimmung</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>
