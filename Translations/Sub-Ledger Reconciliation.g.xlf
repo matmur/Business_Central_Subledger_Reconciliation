@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="en-US" target-language="en-US" original="Sub-Ledger Reconciliation">
+    <body>
+      <group id="body">
+        <trans-unit id="Table 508019636 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reconciliation Finding</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Recon Finding - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 3761755486 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the date on which this reconciliation was run. Both sides of the comparison are measured as of the moment of the run, not as of a historical date.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Recon Finding - Field Check Date - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 3761755486 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Check Date</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Recon Finding - Field Check Date - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 410940989 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the customer posting group(s) whose receivables post to this control account. Multiple groups can share one account, so they are reconciled together.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Recon Finding - Field Customer Posting Group - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 410940989 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Customer Posting Group(s)</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Recon Finding - Field Customer Posting Group - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 2526400892 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the difference between the sub-ledger balance and the G/L balance. A non-zero value indicates drift.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Recon Finding - Field Delta - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 2526400892 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Delta</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Recon Finding - Field Delta - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 883711285 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies a unique, system-assigned number for the reconciliation finding.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Recon Finding - Field Entry No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 883711285 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Entry No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Recon Finding - Field Entry No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 65409710 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the current balance of this G/L receivables control account.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Recon Finding - Field G/L Balance - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 65409710 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>G/L Balance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Recon Finding - Field G/L Balance - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 3647750311 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the G/L receivables control account being reconciled.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Recon Finding - Field G/L Control Account No. - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 3647750311 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>G/L Control Account No.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Recon Finding - Field G/L Control Account No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 513339096 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies whether this control account is balanced or shows drift.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Recon Finding - Field Status - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 513339096 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Status</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Recon Finding - Field Status - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 682514462 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the summed remaining amount (LCY) of the open customer ledger entries of every posting group that points at this control account.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Recon Finding - Field Sub-Ledger Balance - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Table 508019636 - Field 682514462 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sub-Ledger Balance</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Recon Finding - Field Sub-Ledger Balance - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2319951925 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reconciliation Findings</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Recon Findings - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2319951925 - Action 2842425116 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Recalculates the sub-ledger against the general ledger and replaces the previous result with one finding per G/L receivables control account.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Recon Findings - Action RunReconciliationCheck - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 2319951925 - Action 2842425116 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Run Reconciliation Check</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Recon Findings - Action RunReconciliationCheck - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 2319951925 - Action 3383493608 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Process</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Recon Findings - Action Category_Process - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3747955979 - EnumValue 1000799854 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Balanced</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Recon Status - EnumValue Balanced - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 3747955979 - EnumValue 3153180701 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Drift Detected</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Recon Status - EnumValue Drift Detected - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="PermissionSet 1243789787 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sub-Ledger Reconciliation</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">PermissionSet Sub-Ledger Recon - Property Caption</note>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>
