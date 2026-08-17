@@ -49,7 +49,7 @@ Eine **nachträglich umgestellte Buchungsgruppe** ist *keine* solche Ursache, wi
 
 Stattdessen wird zu jedem offenen Posten der Sachposten derselben Buchung gesucht (gleiche Buchungsnummer, Herkunftsart Debitor, gleiche Debitorennummer) und dessen Konto verwendet. Der Standardbericht 33 „Debitoren und Kreditoren abstimmen" arbeitet aus der Einrichtung und zeigt das beschriebene Verhalten.
 
-**Welche Konten geprüft werden**, kommt in erster Linie aus den Debitorensammelkonten der Buchungsgruppen. Zusätzlich werden Sachkonten mit der Unterkategorie *Forderungen* berücksichtigt – ein Feld, das gepflegt sein kann, aber nicht muss. Wo es leer ist, trägt es nichts bei; wo es gefüllt ist, bleibt ein Konto erkennbar, von dem eine Buchungsgruppe weggezogen wurde. Ein kostenloser Zusatz, keine Garantie – siehe *Grenzen*.
+**Welche Konten geprüft werden**, kommt aus den Debitorensammelkonten der Buchungsgruppen. Wer zusätzlich die Unterkategorie *Forderungen* im Kontenplan pflegt, erweitert die Prüfung damit: Ein Konto, von dem eine Buchungsgruppe weggezogen wurde, bleibt erkennbar. Die Pflege ist optional – ohne sie verhält sich die Erweiterung, als gäbe es die zweite Quelle nicht. Siehe *Grenzen*.
 
 ## Grenzen
 

@@ -49,7 +49,7 @@ A **posting group reassigned after the fact** is *not* one of these causes, but 
 
 Instead, for every open entry the G/L line of the same transaction is located (same transaction number, source type Customer, same customer number) and its account is used. The standard report 33 "Reconcile Customer and Vendor Accounts" works from the setup and shows the behaviour described above.
 
-**Which accounts get checked** comes primarily from the receivables accounts named by the customer posting groups. G/L accounts carrying the *Accounts Receivable* subcategory are added on top — a field that may be maintained, but often is not. Where it is empty it contributes nothing; where it is filled, an account a posting group was moved away from stays recognisable. A free extra, not a guarantee — see *Limitations*.
+**Which accounts get checked** comes from the receivables accounts named by the customer posting groups. Maintaining the *Accounts Receivable* subcategory in the chart of accounts extends that: an account a posting group was moved away from stays recognisable. Maintaining it is optional — without it the extension behaves as if the second source did not exist. See *Limitations*.
 
 ## Limitations
 
