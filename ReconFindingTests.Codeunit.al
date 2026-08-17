@@ -1,7 +1,8 @@
 codeunit 50149 "Recon Finding Tests"
 {
-    // Tests the one piece of logic in this extension that is pure and therefore worth pinning
-    // down: the Delta and Status a Recon Finding derives from the two balances written into it.
+    // Tests the pieces of logic in this extension that are pure and therefore worth pinning
+    // down: the Delta and Status a Recon Finding derives from the two balances written into
+    // it, and the rule that decides which G/L account an open entry is counted against.
     //
     // These deliberately do not post ledger entries. Reconciliation over posted data belongs in
     // an integration test with a proper fixture; what is tested here is the invariant that
@@ -82,6 +83,43 @@ codeunit 50149 "Recon Finding Tests"
         AssertDecimal(0, ReconFinding.Delta, 'Insert(false) must not derive Delta — the reconciliation relies on Insert(true).');
     end;
 
+    [Test]
+    procedure PostedAccountWinsOverCurrentSetup()
+    var
+        SubLedgerReconMgt: Codeunit "Sub-Ledger Recon Mgt.";
+    begin
+        // [SCENARIO] A posting group was moved to a different receivables account after its
+        // entries had been posted. The account the entries actually went to must win. Taking
+        // the group's current account instead would count old entries against the new account
+        // and make both accounts report drift that is not there.
+        AssertCode('12100', SubLedgerReconMgt.ResolveAccount('12100', '12200'),
+            'The posted account must win over the posting group''s current account.');
+    end;
+
+    [Test]
+    procedure CurrentSetupIsTheFallback()
+    var
+        SubLedgerReconMgt: Codeunit "Sub-Ledger Recon Mgt.";
+    begin
+        // [SCENARIO] No G/L line on a known receivables account could be found for the entry —
+        // it has no transaction number, or its transaction posted elsewhere. Falling back to
+        // the posting group's current account keeps the entry in the reconciliation instead of
+        // silently dropping it.
+        AssertCode('12200', SubLedgerReconMgt.ResolveAccount('', '12200'),
+            'Without a posted account the posting group''s current account must be used.');
+    end;
+
+    [Test]
+    procedure EntryWithNoAccountAtAllIsSkipped()
+    var
+        SubLedgerReconMgt: Codeunit "Sub-Ledger Recon Mgt.";
+    begin
+        // [SCENARIO] Neither a posted account nor a configured one. The reconciliation must
+        // get an empty code back and leave the entry out rather than inventing an account.
+        AssertCode('', SubLedgerReconMgt.ResolveAccount('', ''),
+            'With neither account known the result must stay empty.');
+    end;
+
     local procedure InsertFinding(var ReconFinding: Record "Recon Finding"; SubLedgerBalance: Decimal; GLBalance: Decimal)
     begin
         ReconFinding.Init();
@@ -97,6 +135,12 @@ codeunit 50149 "Recon Finding Tests"
     begin
         if Expected <> Actual then
             Error('%1 Expected %2, got %3.', Because, Expected, Actual);
+    end;
+
+    local procedure AssertCode(Expected: Code[20]; Actual: Code[20]; Because: Text)
+    begin
+        if Expected <> Actual then
+            Error('%1 Expected ''%2'', got ''%3''.', Because, Expected, Actual);
     end;
 
     local procedure AssertStatus(Expected: Enum "Recon Status"; Actual: Enum "Recon Status"; Because: Text)
