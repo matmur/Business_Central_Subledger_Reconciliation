@@ -18,6 +18,15 @@ codeunit 50102 "Sub-Ledger Recon Mgt."
     // entries whose transaction carries no line on a known receivables account, fall back to
     // the posting group's current account - that is the old behaviour, kept as a safety net
     // rather than as the rule.
+    //
+    // "Known receivables account" comes from two sources, because neither alone is enough.
+    // The posting group setup is authoritative but only ever names accounts that are in use
+    // TODAY - an account a group was moved away from disappears from it, and with it the
+    // ability to recognise the entries still sitting there. The G/L account classification
+    // (subcategory Accounts Receivable) survives that, but it is optional and may be unset on
+    // a tenant that never bothered with account categories. Taking the union means each
+    // source covers the other's blind spot, and the classification can only ever ADD accounts
+    // - where it is unmaintained, behaviour is exactly as if it were not consulted.
 
     procedure RunReconciliation()
     var
@@ -49,6 +58,11 @@ codeunit 50102 "Sub-Ledger Recon Mgt."
                     RememberGroup(GroupsByAccount, SeenGroupOnAccount, AccountNo, CustPostingGroup.Code);
                 end;
             until CustPostingGroup.Next() = 0;
+
+        // Pass 1b -- accounts the chart of accounts itself classifies as receivables. Only
+        // widens the recognition set; deliberately does NOT seed a finding, so an unused
+        // receivables account does not produce an empty row.
+        AddClassifiedReceivablesAccounts(ReceivablesAccounts);
 
         // Pass 2 -- every open entry, counted against the account it was actually posted to.
         CustLedgerEntry.SetRange(Open, true);
@@ -90,6 +104,32 @@ codeunit 50102 "Sub-Ledger Recon Mgt."
             until GLEntry.Next() = 0;
 
         exit('');
+    end;
+
+    // Adds every G/L account classified under the system subcategory "Accounts Receivable".
+    // Matching on the description is how the base application identifies that subcategory
+    // itself; GetAR() returns it in the tenant's language, and "System Generated" keeps a
+    // hand-made category with the same name out. If the classification is unmaintained this
+    // finds nothing and changes nothing.
+    local procedure AddClassifiedReceivablesAccounts(var ReceivablesAccounts: Dictionary of [Code[20], Boolean])
+    var
+        GLAccount: Record "G/L Account";
+        GLAccountCategory: Record "G/L Account Category";
+        GLAccountCategoryMgt: Codeunit "G/L Account Category Mgt.";
+    begin
+        GLAccountCategory.SetRange("System Generated", true);
+        GLAccountCategory.SetRange(Description, CopyStr(GLAccountCategoryMgt.GetAR(), 1, MaxStrLen(GLAccountCategory.Description)));
+        if not GLAccountCategory.FindSet() then
+            exit;
+
+        repeat
+            GLAccount.SetRange("Account Subcategory Entry No.", GLAccountCategory."Entry No.");
+            if GLAccount.FindSet() then
+                repeat
+                    if not ReceivablesAccounts.ContainsKey(GLAccount."No.") then
+                        ReceivablesAccounts.Set(GLAccount."No.", true);
+                until GLAccount.Next() = 0;
+        until GLAccountCategory.Next() = 0;
     end;
 
     local procedure FallbackAccountFor(PostingGroupCode: Code[20]; var AccountByGroup: Dictionary of [Code[20], Code[20]]): Code[20]
