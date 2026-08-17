@@ -9,7 +9,7 @@
 
 A small, focused **Business Central (AL)** extension that catches **sub-ledger drift** — when the customer receivables sub-ledger stops agreeing with its G/L control account.
 
-For each **G/L receivables control account** it compares the **open customer ledger entries** (summed remaining, LCY) against the **account balance**. Any non-zero difference is drift — a manual G/L posting, a reassigned posting group, a partial reversal. Pure aggregation, no judgment calls.
+For each **G/L receivables control account** it compares the **open customer ledger entries** (summed remaining, LCY) against the **account balance**. Any non-zero difference is drift — a manual G/L posting, a posting made without a customer, a partial reversal. Pure aggregation, no judgment calls.
 
 ## Demo
 
@@ -27,22 +27,35 @@ A run against the BC **28.3** sandbox (DE localization, CRONUS). The extension c
 
 ## Why it matters
 
-The sub-ledger and G/L are supposed to move together. Post **directly** to a receivables control account, or reassign a posting group, and they silently diverge — usually caught only at period close. This surfaces it on demand or on a schedule, any time.
+The sub-ledger and G/L are supposed to move together. Post **directly** to a receivables control account without naming a customer and they silently diverge — usually caught only at period close. This surfaces it on demand or on a schedule, any time.
 
 ## How drift happens
 
 | Cause | Requires "Direct Posting"? |
 |---|---|
-| Posting group changed after the fact — old entries stay on the old control account, the customer now counts towards the new group | No |
+| Manual G/L posting with no customer (the demo case, because it is the easiest to reproduce) | Yes |
 | Data migration or API integration writes straight to the G/L, bypassing the standard posting routine | No |
 | Partial reversal where only one side was unapplied | No |
-| Manual G/L posting (the demo case, because it is the easiest to reproduce) | Yes |
 
 The check doesn't test whether a rule was broken, but whether the numbers still agree — regardless of the cause.
 
-## The design decision that matters
+A **posting group reassigned after the fact** is *not* one of these causes, but tools that read the account from the current setup report it as one. See the second design decision.
 
-**Reconcile per control account, not per posting group.** Several posting groups can map to the *same* receivables account (e.g. `EU` and `AUSLAND` → `1203`). Comparing one group's partial sub-ledger to the account's full balance would report phantom drift. So the engine folds every group's open sub-ledger into its account and compares **once per account**, where the numbers are actually comparable.
+## The two design decisions
+
+**1. Reconcile per control account, not per posting group.** Several posting groups can map to the *same* receivables account (e.g. `EU` and `AUSLAND` → `1203`). Comparing one group's partial sub-ledger to the account's full balance would report phantom drift. So the comparison happens **once per account**, where the numbers are actually comparable.
+
+**2. The account comes from the posting, not from the setup.** An entry's posting group is fixed when it is posted; the account behind that group can be changed later. Reading the account from the current setup measures old entries against a new account and makes **two** accounts report drift — the one that lost the entries and the one that gained them. Both figures are arithmetically correct and both reports are wrong.
+
+Instead, for every open entry the G/L line of the same transaction is located (same transaction number, source type Customer, same customer number) and its account is used. The standard report 33 "Reconcile Customer and Vendor Accounts" works from the setup and shows the behaviour described above.
+
+**Which accounts get checked** comes primarily from the receivables accounts named by the customer posting groups. G/L accounts carrying the *Accounts Receivable* subcategory are added on top — a field that may be maintained, but often is not. Where it is empty it contributes nothing; where it is filled, an account a posting group was moved away from stays recognisable. A free extra, not a guarantee — see *Limitations*.
+
+## Limitations
+
+- **No history.** Every run shows the state as of today and replaces the previous one. A past cut-off date would require reconstructing which entries were open on that day.
+- **An account that is neither named by a posting group nor classified as receivables is not checked** — even with entries still sitting on it. Since the classification is unmaintained in many tenants, in practice: remove an account from the setup entirely and it drops out of the check. BC records nowhere that an account once served as a control account, and within a transaction the receivables line cannot be told apart from revenue and tax lines without that list.
+- **Per-entry cost.** Resolving the account costs one query per open entry. Accepted deliberately at this scope; with a very large open-item count the attribution would need to be built differently.
 
 ## Objects
 
@@ -53,11 +66,15 @@ The check doesn't test whether a rule was broken, but whether the numbers still 
 | codeunit `Sub-Ledger Recon Mgt.` | 50102 | Core reconciliation logic |
 | codeunit `Recon Check Job` | 50103 | Job Queue wrapper (schedulable) |
 | page `Recon Findings` | 50104 | List UI + run action + red/green styling |
+| permissionset `Sub-Ledger Recon` | 50105 | Permissions, so users do not need SUPER |
+| codeunit `Recon Finding Tests` | 50149 | Tests for delta, status and account resolution |
 
 ## Under the hood
 
-- **Extension-only, upgrade-safe.** No base objects modified; it only *reads* base data (`Customer Posting Group`, `Cust. Ledger Entry`, `G/L Account`) through their public surface.
-- **FlowFields, handled correctly.** `Remaining Amt. (LCY)` and G/L `Balance` are FlowFields, not stored columns — so they can't be `CalcSums`'d. The engine uses `SetAutoCalcFields` (server computes during the fetch — one set-based query, no N+1) and `CalcFields` for the single account balance.
+- **Extension-only, upgrade-safe.** No base objects modified; it only *reads* base data (`Customer Posting Group`, `Cust. Ledger Entry`, `G/L Entry`, `G/L Account`, `G/L Account Category`) through their public surface.
+- **FlowFields, handled correctly.** `Remaining Amt. (LCY)` and G/L `Balance` are FlowFields, not stored columns — so they can't be `CalcSums`'d. Across the set of entries the server computes them during the fetch (`SetAutoCalcFields`); for the single account balance `CalcFields` is used.
+- **Costs stated plainly.** Reading the remaining amounts stays set-based; resolving the account does not — that is one query per open entry. See *Limitations*.
+- **Derivation lives in the table.** `Delta` and `Status` are derived in the finding table's `OnInsert`, not in the caller, so every row is consistent the moment it is written, no matter who writes it.
 - **Data never leaves the tenant.** Findings only — no external calls.
 - **Schedulable.** Codeunit 50103 runs as a Job Queue Entry; the same core logic serves both the page button and the scheduler.
 
