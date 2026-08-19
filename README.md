@@ -75,6 +75,7 @@ Stattdessen wird zu jedem offenen Posten der Sachposten derselben Buchung gesuch
 - **FlowFields, korrekt behandelt.** `Remaining Amt. (LCY)` und der Hauptbuch-`Balance` sind FlowFields, keine gespeicherten Spalten – sie lassen sich daher nicht per `CalcSums` summieren. Für die Menge der Posten berechnet der Server sie während des Abrufs mit (`SetAutoCalcFields`), für den einzelnen Kontosaldo wird `CalcFields` verwendet.
 - **Kosten transparent.** Das Lesen der Restbeträge bleibt mengenbasiert; die Kontozuordnung dagegen ist eine Abfrage je offenem Posten. Siehe *Grenzen*.
 - **Ableitung in der Tabelle.** `Delta` und `Status` entstehen im `OnInsert` der Befundtabelle, nicht im Aufrufer – jede Zeile ist damit in dem Moment stimmig, in dem sie geschrieben wird, unabhängig davon, wer sie schreibt.
+- **Vollständig deutsch beschriftet.** Alle 24 Beschriftungen und Tooltips sind in `Translations/Sub-Ledger Reconciliation.de-DE.xlf` übersetzt (`features: ["TranslationFile"]`) – in der Oberfläche steht kein englischer Feldname.
 - **Daten verlassen den Mandanten nie.** Nur Befunde – keine externen Aufrufe.
 - **Planbar.** Codeunit 50103 läuft als Aufgabenwarteschlangenposten; dieselbe Kernlogik bedient sowohl die Schaltfläche auf der Seite als auch den Zeitplaner.
 

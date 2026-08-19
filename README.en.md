@@ -75,6 +75,7 @@ Instead, for every open entry the G/L line of the same transaction is located (s
 - **FlowFields, handled correctly.** `Remaining Amt. (LCY)` and G/L `Balance` are FlowFields, not stored columns — so they can't be `CalcSums`'d. Across the set of entries the server computes them during the fetch (`SetAutoCalcFields`); for the single account balance `CalcFields` is used.
 - **Costs stated plainly.** Reading the remaining amounts stays set-based; resolving the account does not — that is one query per open entry. See *Limitations*.
 - **Derivation lives in the table.** `Delta` and `Status` are derived in the finding table's `OnInsert`, not in the caller, so every row is consistent the moment it is written, no matter who writes it.
+- **Fully localised.** All 24 captions and tooltips are translated in `Translations/Sub-Ledger Reconciliation.de-DE.xlf` (`features: ["TranslationFile"]`), so a DE tenant shows no English field names.
 - **Data never leaves the tenant.** Findings only — no external calls.
 - **Schedulable.** Codeunit 50103 runs as a Job Queue Entry; the same core logic serves both the page button and the scheduler.
 
