@@ -59,8 +59,7 @@ page 50104 "Recon Findings"
     var
         RowStyle: Text;
 
-    // Row styling is decided per record: red (Unfavorable) when drift is detected, green
-    // (Favorable) when the account is balanced. StyleExpr on each field paints the row.
+    // Red (Unfavorable) on drift, green (Favorable) when balanced.
     trigger OnAfterGetRecord()
     begin
         if Rec.Status = Rec.Status::"Drift Detected" then

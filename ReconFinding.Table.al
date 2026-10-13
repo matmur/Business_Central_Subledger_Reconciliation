@@ -64,10 +64,7 @@ table 50101 "Recon Finding"
         }
     }
 
-    // Delta and Status are derived, not entered. Computing them in OnInsert means every row is
-    // internally consistent the instant it is written, regardless of who inserts it — including
-    // a test that writes a finding directly without running a reconciliation.
-    // The insert must be called as Insert(true) for this trigger to fire.
+    // Delta and Status are derived here, so every row is consistent no matter who inserts it (needs Insert(true)).
     trigger OnInsert()
     begin
         Delta := "Sub-Ledger Balance" - "G/L Balance";

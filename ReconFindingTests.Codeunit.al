@@ -1,16 +1,7 @@
 codeunit 50149 "Recon Finding Tests"
 {
-    // Tests the pieces of logic in this extension that are pure and therefore worth pinning
-    // down: the Delta and Status a Recon Finding derives from the two balances written into
-    // it, and the rule that decides which G/L account an open entry is counted against.
-    //
-    // These deliberately do not post ledger entries. Reconciliation over posted data belongs in
-    // an integration test with a proper fixture; what is tested here is the invariant that
-    // makes every finding trustworthy — that Delta and Status are never out of step with the
-    // balances beside them, no matter who inserted the row.
-    //
-    // Assertions are hand-rolled rather than taken from Library Assert, so this test app
-    // depends on nothing but the extension under test and installs in any sandbox.
+    // Pure-logic tests: Delta/Status from OnInsert and the account resolution rule. No posting,
+    // no Library Assert dependency, so the test app installs in any sandbox.
     Subtype = Test;
     TestPermissions = Disabled;
 
